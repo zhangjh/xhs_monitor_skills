@@ -23,9 +23,14 @@
 export XHS_COOKIE="此处粘贴你的Cookie"
 ```
 
-### 2. 设置推送目标
+### 2. 设置推送目标 (获取 Telegram ID)
 在同一个 `.sh` 文件中，找到 `TARGET_ID`。
 将其修改为你的 Telegram ID（如 `telegram:12345678`），这样脚本运行后就会自动把日报发到你的手机上。
+
+**获取方法：**
+1. 在 Telegram 中搜索并私聊机器人 `@userinfobot` 或 `@getmyid_bot`。
+2. 发送任意消息给它，它会返回你的 `Id`（一串数字，如 `YOUR_ID`）。
+3. 在脚本中填写：`TARGET_ID="telegram:你的数字ID"`。
 
 ---
 
