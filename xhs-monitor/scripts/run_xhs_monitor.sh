@@ -6,9 +6,9 @@
 # 3. Pipes the output to OpenClaw LLM for "Z总管" style analysis
 # 4. Sends final report to Telegram
 
-export XHS_COOKIE="YOUR_XHS_COOKIE_HERE"
+export XHS_COOKIE="gid=yjq4q4KjD4vyyjq4q4Kj8F6MfYE4IudATjkiDkAxylDdI228y41jA6888qJ8Y2y8J2fK8qdD; x-user-id-creator.xiaohongshu.com=5e63d23500000000010076b2; a1=19aa055a705k4jwmoal4dnl0yar32p095yll83shb50000224279; webId=61ec3108ca8814556f5d6f2624f51304; abRequestId=61ec3108ca8814556f5d6f2624f51304; xsecappid=xhs-pc-web; acw_tc=0a00dadb17743201606897482ee6454198a247bbf9c25b8cde6fd191088251; webBuild=61.2; web_session=0400698f17917d5626e43ab2f43b4bfefb378d; id_token=VjEAAJI5B/5y3AqT8zSsqfYZVLtf+dfCqWlLolr41kJQKyjvPvmfYWWzBx1Y5zhNjFpE5gpd+pC6jp2OfOO8GZ1q5v/tEqNrCpj44xODJK7iapkNKVMfWp5ko7jZ6+Ex7yeCNXbq; loadts=1774320221502; unread={%22ub%22:%2269bbedc1000000001b020f0c%22%2C%22ue%22:%2269a927b1000000000e00f324%22%2C%22uc%22:30}; websectiga=10f9a40ba454a07755a08f27ef8194c53637eba4551cf9751c009d9afb564467; sec_poison_id=8023920d-3ad4-4bf4-a0ef-3bf7522b02a9"
 export NODE_PATH=/usr/lib/node_modules
-TARGET_ID="telegram:YOUR_CHAT_ID_HERE"
+TARGET_ID="telegram:YOUR_ID"
 KEYWORD="${1:-麦当劳}"
 LOG_FILE="/data/root/xhs_cron.log"
 
