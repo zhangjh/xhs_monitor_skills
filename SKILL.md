@@ -1,34 +1,31 @@
-# 🏮 小红书负面舆情监控 (XHS Negative Sentiment Monitor)
+# 🔍 小红书通用关键词监控 (XHS Generic Monitor)
 
-基于 Puppeteer 的小红书实时舆情抓取工具，集成 Z总管 (AI Manager) 深度分析。
+一个通用的、不带预设倾向的小红书关键词抓取工具。
 
 ## 核心功能
-- **自动化抓取**：自动组合 [品牌 + 负面词] 进行渗透式扫描。
-- **智能过滤**：严格过滤非 7 天内的陈旧信息，确保时效性。
-- **Z总管分析**：集成 LLM 对原始吐槽进行风险评估与策略建议（需配置 OpenClaw LLM）。
-- **直达链接**：生成永久 Note 链接，方便一键回溯。
+- **自定义关键词**：支持抓取任何你感兴趣的内容（不仅仅是负面）。
+- **实时同步**：获取最新 7 天内的笔记动态。
+- **结构化输出**：直接输出包含作者、点赞数和直达链接的报告。
+- **极简集成**：支持通过 Cron 进行定时监控。
 
-## 安装要求
-- 操作系统：Linux (Ubuntu/Debian 推荐)
-- 依赖：`chromium-browser` 或 `chromium`, `nodejs`, `puppeteer-core`
-- 环境：OpenClaw 运行环境
+## 安装与配置
+1. 将本技能包放置在 `/root/.openclaw/workspace/skills/xhs-generic-monitor/`。
+2. 在 `scripts/run_xhs_generic.sh` 中配置你的 `XHS_COOKIE` 和 `TARGET_ID`。
+3. 赋予执行权限：`chmod +x scripts/*.sh`。
 
-## 使用说明
-### 1. 配置 Cookie
-在使用前，需将小红书网页版的 Cookie 设置到环境变量 `XHS_COOKIE` 中。
-
-### 2. 命令行执行
+## 使用示例
+### 1. 手动搜索
 ```bash
-# 监控指定品牌（默认：麦当劳）
-./scripts/run_xhs_monitor.sh "品牌名"
+# 抓取关于 "Vision Pro" 的最新笔记
+./scripts/run_xhs_generic.sh "Vision Pro"
 ```
 
-### 3. 定时任务 (Cron)
-建议设置每日早晨运行：
+### 2. 定时监控
+在 Crontab 中添加，每日监控某个特定话题：
 ```cron
-30 09 * * * /root/.openclaw/workspace/scripts/run_xhs_monitor.sh "麦当劳" >> /data/root/xhs_cron.log 2>&1
+0 10 * * * /root/.openclaw/workspace/scripts/run_xhs_generic.sh "AI 创业" >> /data/root/xhs_generic.log 2>&1
 ```
 
 ## 注意事项
-- 本工具仅供品牌合规监控使用，请遵守小红书平台相关协议。
-- Cookie 具有有效期，如抓取失败请及时更新。
+- 本工具为通用抓取器，不包含针对特定品牌的“Z总管”风险分析逻辑，输出为原始抓取报告。
+- 请遵守小红书平台相关协议，勿用于恶意爬取。
