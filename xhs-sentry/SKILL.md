@@ -46,6 +46,29 @@ NODE_PATH=$(npm root -g) node /root/.openclaw/workspace/skills/xhs-sentry/script
 - `script-cookie:<script>`
 - `anonymous`
 
+## 消息接收渠道
+
+`xhs-sentry` 本身负责巡检与输出结构化结果；如果要把结果自动发到聊天工具，还需要配置消息接收渠道。
+
+常见示例：
+
+### Telegram
+```bash
+export CHANNEL="telegram"
+export TARGET_ID="telegram:YOUR_TELEGRAM_ID"
+```
+
+### 企业微信（WeCom）
+```bash
+export CHANNEL="wecom"
+export TARGET_ID="wecom:YOUR_WECOM_ID"
+```
+
+说明：
+- Telegram 数字 ID 可通过 `@userinfobot` 获取
+- 企业微信接收 ID 需与你当前 OpenClaw / wecom 通道配置一致
+- 所有真实 ID 都不应写入公开仓库，应使用占位符
+
 ## 输出规则
 
 ### 1. 先判断页面状态，再下业务结论
