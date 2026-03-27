@@ -96,23 +96,6 @@ export TARGET_ID="wecom:YOUR_WECOM_ID"
 
 ---
 
-## 隐私与安全要求
-
-仓库中不得提交以下真实信息：
-
-- Telegram ID
-- 企业微信 ID
-- Cookie / Session Token
-- 带隐私信息的日志或截图
-
-统一使用占位符，例如：
-
-- `YOUR_XHS_COOKIE_HERE`
-- `YOUR_WECOM_ID_HERE`
-- `telegram:YOUR_TELEGRAM_ID`
-
----
-
 ## 快速验收
 
 在仓库根目录执行：
@@ -135,12 +118,6 @@ NODE_PATH=$(npm root -g) node xhs-sentry/scripts/monitor.js "OpenClaw" 5 /tmp
 
 本仓库是**源码仓库**。已发布的 skill 页面：
 - https://clawhub.ai/zhangjh/xhs-sentry
-
-如果同时存在 OpenClaw workspace 下的运行副本，建议遵循以下原则：
-
-1. 优先修改本仓库源码
-2. 再同步到运行副本
-3. 避免仓库版本与运行版本漂移
 
 ---
 
