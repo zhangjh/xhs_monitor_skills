@@ -116,8 +116,15 @@ function analyzeNotes(keyword, notes) {
     { negative: 0, viral: 0, competitor: 0, risk_count: 0, hot_count: 0, competitive_count: 0 }
   );
 
-  const topHot = [...analyzed].sort((a, b) => b.scores.viral - a.scores.viral || b.likes_value - a.likes_value).slice(0, 3);
-  const topRisk = [...analyzed].sort((a, b) => b.scores.negative - a.scores.negative || b.likes_value - a.likes_value).slice(0, 3);
+  const topHot = [...analyzed]
+    .filter((n) => n.scores.viral > 0 || n.likes_value >= 1000)
+    .sort((a, b) => b.scores.viral - a.scores.viral || b.likes_value - a.likes_value)
+    .slice(0, 3);
+
+  const topRisk = [...analyzed]
+    .filter((n) => n.scores.negative > 0)
+    .sort((a, b) => b.scores.negative - a.scores.negative || b.likes_value - a.likes_value)
+    .slice(0, 3);
 
   let overall = 'insufficient-data';
   if (aggregate.risk_count > 0 && aggregate.risk_count >= aggregate.hot_count) overall = 'risk-watch';
@@ -131,11 +138,33 @@ function analyzeNotes(keyword, notes) {
   if (aggregate.competitive_count > 0) summaryParts.push(`竞品/对比信号 ${aggregate.competitive_count} 条`);
   if (summaryParts.length === 0 && analyzed.length > 0) summaryParts.push('内容偏中性，未发现明显风险或爆点');
 
+  const report = {
+    headline:
+      overall === 'risk-watch'
+        ? `关键词「${keyword}」当前以风险讨论为主，建议优先人工复核。`
+        : overall === 'hot-trend'
+        ? `关键词「${keyword}」当前存在明显热度内容，可视为有传播势能。`
+        : overall === 'competitive-discussion'
+        ? `关键词「${keyword}」出现一定竞品/对比讨论，适合继续跟踪。`
+        : overall === 'neutral-chatter'
+        ? `关键词「${keyword}」当前讨论偏中性，未见明显风险。`
+        : `关键词「${keyword}」当前数据不足，需结合截图人工判断。`,
+    action:
+      overall === 'risk-watch'
+        ? '优先查看 top_risk，并回到截图确认是否出现避雷、维权、翻车类表述。'
+        : overall === 'hot-trend'
+        ? '优先查看 top_hot，提炼高互动内容与传播切口。'
+        : overall === 'competitive-discussion'
+        ? '重点阅读对比/测评类内容，提取用户关注的差异点。'
+        : '当前可作为常规巡检结果存档，无需立即响应。'
+  };
+
   return {
     keyword,
     overall,
     aggregate,
     summary: summaryParts.join('；'),
+    report,
     top_hot: topHot,
     top_risk: topRisk,
     analyzed_notes: analyzed
@@ -223,12 +252,27 @@ function analyzeNotes(keyword, notes) {
         const likeEl = root.querySelector('.like-wrapper .count') || root.querySelector('[class*="like"] [class*="count"]') || root.querySelector('[class*="interact"] [class*="count"]') || root.querySelector('.count');
         const dateEl = root.querySelector('.time') || root.querySelector('[class*="time"]');
         const coverEl = root.querySelector('img');
-        const title = titleEl?.getAttribute?.('alt') || textOf(titleEl);
+        const rawTitle = titleEl?.getAttribute?.('alt') || textOf(titleEl);
         const author = textOf(authorEl);
         const likes = textOf(likeEl);
         const dateStr = textOf(dateEl);
         const cover = coverEl?.src || '';
-        if (!title && !author) continue;
+        let title = rawTitle;
+        if (!title) {
+          const fallbackTexts = Array.from(root.querySelectorAll('span, div, p'))
+            .map((el) => textOf(el))
+            .filter((t) => {
+              if (!t || t.length < 6) return false;
+              if (t === author || t === likes || t === dateStr) return false;
+              if (t.includes('\n')) return false;
+              if (/^\d+$/.test(t)) return false;
+              if (/^(\d{2}-\d{2}|\d+天前|\d+小时前)$/.test(t)) return false;
+              if (author && t.includes(author)) return false;
+              return true;
+            });
+          title = fallbackTexts[0] || '';
+        }
+        if (!title) continue;
         unique.add(link);
         results.push({ title, author, likes, dateStr, link, cover });
         if (results.length >= limit) break;
