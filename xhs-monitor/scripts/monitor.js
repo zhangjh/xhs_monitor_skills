@@ -114,7 +114,8 @@ const puppeteer = require('puppeteer-core');
       report += `   • Link: https://www.xiaohongshu.com/explore/${n.id}\n`;
     });
     
-    report += `\n---\n\n【Z总管指令：请对上述舆情进行深度分析，指出潜在风险及应对建议。】\n`;
+    const assistantName = process.env.ASSISTANT_NAME || 'Z总管';
+    report += `\n---\n\n【${assistantName}指令：请对上述舆情进行深度分析，指出潜在风险及应对建议。】\n`;
   } else {
     report += `--- 暂无新增负面舆情 ---`;
   }
