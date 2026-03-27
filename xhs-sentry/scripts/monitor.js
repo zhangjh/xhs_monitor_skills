@@ -24,10 +24,10 @@ function countHits(text, terms) {
 function parseLikes(raw) {
   const text = String(raw || '').trim().toUpperCase().replace(/,/g, '');
   if (!text) return 0;
-  const m = text.match(/([0-9]+(?:\.[0-9]+)?)(W|K)?/);
+  const m = text.match(/([0-9]+(?:\.[0-9]+)?)(W|K|万)?/);
   if (!m) return 0;
   let n = parseFloat(m[1]);
-  if (m[2] === 'W') n *= 10000;
+  if (m[2] === 'W' || m[2] === '万') n *= 10000;
   if (m[2] === 'K') n *= 1000;
   return Math.round(n);
 }
@@ -54,7 +54,10 @@ function loadCookieString() {
     return { cookieString: process.env.XHS_COOKIE.trim(), auth_mode: 'env-cookie' };
   }
 
+  const repoRoot = path.resolve(__dirname, '..', '..');
   const candidates = [
+    path.join(repoRoot, 'xhs-monitor', 'scripts', 'run_xhs_monitor.sh'),
+    path.join(repoRoot, 'xhs-generic-monitor', 'scripts', 'run_xhs_generic.sh'),
     '/root/.openclaw/workspace/scripts/run_xhs_monitor.sh',
     '/root/.openclaw/workspace/skills/xhs-monitor/scripts/run_xhs_monitor.sh',
     '/root/.openclaw/workspace/skills/xhs-generic-monitor/scripts/run_xhs_generic.sh'
