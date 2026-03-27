@@ -1,4 +1,4 @@
-# 小红书监控技能仓库
+# 小红书舆情监控
 
 以下是仓库说明，需要安装skills，你只需要跟你的OpenClaw说一句：
 > https://clawhub.ai/zhangjh/xhs-sentry
