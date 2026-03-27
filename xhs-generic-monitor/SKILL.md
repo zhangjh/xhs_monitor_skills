@@ -17,19 +17,20 @@
    - 刷新页面，点击任一 `search_result` 请求，在 **Request Headers (请求标头)** 中找到 `cookie` 字段。
    - 复制其完整值，填写到 `scripts/run_xhs_generic.sh` 的 `XHS_COOKIE="..."` 变量中。
 
-3. **配置推送渠道 (WeCom / Telegram)**：
+3. **配置推送渠道 (WeCom / Telegram / Signal 等)**：
    编辑 `scripts/run_xhs_generic.sh` 中的环境变量：
 
-   - **WeCom (默认)**：
+   - **企业微信 (WeCom)**：
      ```bash
      export CHANNEL="wecom"
-     export TARGET_ID="YOUR_ID" # 填写你的企业微信 ID
+     export TARGET_ID="YOUR_WECOM_ID"
      ```
    - **Telegram**：
      ```bash
      export CHANNEL="telegram"
-     export TARGET_ID="YOUR_ID" # 填写你的 Telegram Chat ID
+     export TARGET_ID="YOUR_TELEGRAM_CHAT_ID"
      ```
+   - **其他渠道**：支持所有 OpenClaw 已配置的渠道。
 
 4. 赋予执行权限：`chmod +x scripts/*.sh`。
 
