@@ -57,10 +57,8 @@ function loadCookieString() {
   const repoRoot = path.resolve(__dirname, '..', '..');
   const candidates = [
     path.join(repoRoot, 'xhs-monitor', 'scripts', 'run_xhs_monitor.sh'),
-    path.join(repoRoot, 'xhs-generic-monitor', 'scripts', 'run_xhs_generic.sh'),
     '/root/.openclaw/workspace/scripts/run_xhs_monitor.sh',
-    '/root/.openclaw/workspace/skills/xhs-monitor/scripts/run_xhs_monitor.sh',
-    '/root/.openclaw/workspace/skills/xhs-generic-monitor/scripts/run_xhs_generic.sh'
+    '/root/.openclaw/workspace/skills/xhs-monitor/scripts/run_xhs_monitor.sh'
   ];
 
   for (const file of candidates) {

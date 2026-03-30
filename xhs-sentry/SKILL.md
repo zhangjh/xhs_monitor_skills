@@ -41,7 +41,7 @@ NODE_PATH=$(npm root -g) node {baseDir}/scripts/monitor.js "<关键词>" <数量
 - 先读环境变量 `XHS_COOKIE`
 - 若没有，再回退读取现有脚本中的 `export XHS_COOKIE="..."`
 
-因此这个 Skill 会自动兼容你已有的 `xhs-monitor` / `xhs-generic-monitor` cookie 配置。`status.auth_mode` 会标明当前使用的是：
+因此这个 Skill 会自动兼容你已有的 `xhs-monitor` cookie 配置。`status.auth_mode` 会标明当前使用的是：
 - `env-cookie`
 - `script-cookie:<script>`
 - `anonymous`
