@@ -1,52 +1,49 @@
-# 🏮 小红书负面舆情监控 (XHS Negative Sentiment Monitor)
-
-基于 Puppeteer 的小红书实时舆情抓取工具，集成 Z总管 (AI Manager) 深度分析。
-
-## 核心功能
-- **自动化抓取**：自动组合 [品牌 + 负面词] 进行渗透式扫描。
-- **智能过滤**：严格过滤非 7 天内的陈旧信息，确保时效性。
-- **Z总管分析**：集成 LLM 对原始吐槽进行风险评估与策略建议（支持企业微信 WeCom 消息推送）。
-- **直达链接**：生成永久 Note 链接，方便一键回溯。
-
-## 安装要求
-- 操作系统：Linux (Ubuntu/Debian 推荐)
-- 依赖：`chromium-browser` 或 `chromium`, `nodejs`, `puppeteer-core`
-- 环境：OpenClaw 运行环境，并完成 `wecom` 通道配置。
-
-## 使用说明
-### 1. 配置 Cookie (获取方式)
-在使用前，需将小红书网页版的 Cookie 设置到环境变量 `XHS_COOKIE` 中。
-
-**获取方法：**
-1. 在电脑浏览器登录 [小红书网页版](https://www.xiaohongshu.com)。
-2. 按 `F12` 打开开发者工具，进入 **Network (网络)** 选项卡。
-3. 刷新页面，点击第一个请求（通常是 `home` 或 `search_result`）。
-4. 在右侧 **Headers (标头)** -> **Request Headers (请求标头)** 中找到 `cookie` 字段。
-5. 复制其完整值，粘贴到 `scripts/run_xhs_monitor.sh` 的 `XHS_COOKIE="..."` 中。
-
+---
+name: xhs-monitor
+description: 小红书实时负面舆情监控与深度分析技能。自动组合关键词执行渗透式扫描，过滤近7天内容，并由 Z总管 (AI Manager) 生成犀利的风险评估报告。适用于品牌合规监控、负面预警及社交媒体公关应对。支持企业微信/Telegram 通道推送。
 ---
 
-### 2. 配置推送目标 (WeCom)
-修改 `scripts/run_xhs_monitor.sh` 中的 `TARGET_ID` 为你的企业微信用户 ID 或群聊 ID。
+# 小红书负面舆情监控 (XHS Negative Sentiment Monitor)
+
+基于 Puppeteer 的小红书实时舆情抓取工具，专门用于扫描特定品牌或关键词的负面讨论。
+
+## 执行
+
 ```bash
-export TARGET_ID="15928291" # 你的企业微信 ID
-export CHANNEL="wecom"      # 推送通道
+# 监控指定关键词/品牌（默认：麦当劳）
+{baseDir}/scripts/run_xhs_monitor.sh "<关键词>"
 ```
 
----
+## 读结果
 
-### 3. 命令行执行
+- 原始舆情摘要：包含标题、作者、点赞、日期及原文链接。
+- 【核心风险洞察】：由 Z总管生成的犀利深度分析。
+- 【Z总管策略建议】：针对当前舆情趋势的实战动作建议。
+
+## 配置与部署
+
+由于此技能包含推送逻辑，安装后需在 `{baseDir}/scripts/run_xhs_monitor.sh` 中完成以下配置：
+
+### 1. 登录态 (XHS_COOKIE)
+获取方式：
+1. 电脑浏览器登录 [小红书网页版](https://www.xiaohongshu.com)。
+2. 按 `F12` 打开开发者工具 -> Network 选项卡 -> 刷新。
+3. 复制任意搜索请求标头中的 `cookie` 完整值。
+4. 写入脚本中的 `export XHS_COOKIE="..."` 字段。
+
+### 2. 推送配置
+修改脚本中的 `TARGET_ID` 和 `CHANNEL` 以适配你的 OpenClaw 接收通道。
 ```bash
-# 监控指定品牌（默认：麦当劳）
-./scripts/run_xhs_monitor.sh "品牌名"
+export TARGET_ID="15928291" # 你的企业微信/Telegram ID
+export CHANNEL="wecom"      # 接收通道 (wecom/telegram)
 ```
 
-### 4. 定时任务 (Cron)
-建议设置每日早晨运行：
-```cron
-30 09 * * * /root/.openclaw/workspace/scripts/run_xhs_monitor.sh "麦当劳" >> /data/root/xhs_cron.log 2>&1
-```
+## 核心特性
+- **渗透扫描**：自动组合“难吃”、“避雷”、“吐槽”、“投诉”、“差评”等负面后缀。
+- **动态过滤**：严格剔除 7 天前的陈旧贴，确保报告全是新鲜事。
+- **分析深度**：由 AI 扮演“Z总管”角色，拒绝复读废话，直击舆情本质。
 
-## 注意事项
-- 本工具仅供品牌合规监控使用，请遵守小红书平台相关协议。
-- Cookie 具有有效期，如抓取失败请及时更新。
+## 注意
+- 定时执行：建议在 crontab 中配置每日自动巡检。
+- 风控提示：频繁抓取可能会触发验证码，建议合理设置抓取频率。
+- 仅供内部监控使用，请务必更新私有 Cookie。
