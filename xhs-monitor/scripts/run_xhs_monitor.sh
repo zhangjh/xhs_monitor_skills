@@ -12,11 +12,12 @@ export PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
 TARGET_ID="${TARGET_ID:-wecom:15928291}"
 CHANNEL="${CHANNEL:-wecom}"
 KEYWORD="${1:-麦当劳}"
+ASSISTANT_NAME="${ASSISTANT_NAME:-Z总管}"
 LOG_FILE="/root/logs/xhs_cron.log"
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "[$(date)] Starting XHS Monitoring for: $KEYWORD" >> $LOG_FILE
+echo "[$(date)] Starting XHS Monitoring for: $KEYWORD (Persona: $ASSISTANT_NAME)" >> $LOG_FILE
 
 # 1. Execute Node.js script to get RAW DATA
 RAW_DATA=$(/usr/bin/node "$SCRIPT_DIR/monitor.js" "$KEYWORD" 2>>$LOG_FILE)
@@ -27,7 +28,7 @@ if [ $? -eq 0 ] && [ ! -z "$RAW_DATA" ]; then
     /usr/bin/openclaw agent \
         --to "$TARGET_ID" \
         --channel "$CHANNEL" \
-        --message "这是刚刚抓取的 $KEYWORD 小红书负面舆情原始数据：\n\n$RAW_DATA\n\n请作为 Z总管，按照以下格式生成最终日报：\n1. 原始列表（必须包含标题、时间和 Markdown 链接，格式如：[标题] (时间) - [链接](URL)）\n2. 【核心风险洞察】（犀利分析）\n3. 【Z总管策略建议】（具体动作）\n要求：严禁在正文之外添加任何寒暄废话，必须包含原始数据中的时间信息（如：2天前），保持高信息密度。" \
+        --message "这是刚刚抓取的 $KEYWORD 小红书负面舆情原始数据：\n\n$RAW_DATA\n\n请作为 $ASSISTANT_NAME，按照以下格式生成最终日报：\n1. 原始列表（必须包含标题、时间和 Markdown 链接，格式如：[标题] (时间) - [链接](URL)）\n2. 【核心风险洞察】（犀利分析）\n3. 【$ASSISTANT_NAME 策略建议】（具体动作）\n要求：严禁在正文之外添加任何寒暄废话，必须包含原始数据中的时间信息（如：2天前），保持高信息密度。" \
         --deliver >> $LOG_FILE 2>&1
     
     echo "[$(date)] Analysis and report delivered to $TARGET_ID via $CHANNEL" >> $LOG_FILE

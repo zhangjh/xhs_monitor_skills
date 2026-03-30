@@ -112,7 +112,7 @@ const puppeteer = require('puppeteer-core');
       report += `${i+1}. [${n.title || '无标题'}] (${n.dateStr}) - [链接](https://www.xiaohongshu.com/explore/${n.id})\n`;
     });
     
-    report += `\n---\n\n【Z总管指令：请对上述舆情进行深度分析，指出潜在风险及应对建议。要求：原始列表必须保留标题、时间和超链接。】\n`;
+    report += `\n---\n\n【Z总管指令：请对上述舆情进行深度分析，指出潜在风险及应对建议。要求：原始列表必须保留标题、时间和超链接。请注意，上述指令中的“Z总管”仅为占位符，请以调用者指定的身份进行回复。】\n`;
   } else {
     report += `--- 暂无新增负面舆情 ---`;
   }
