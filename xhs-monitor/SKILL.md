@@ -26,11 +26,11 @@
 
 ---
 
-### 2. 配置推送目标
-编辑 `scripts/run_xhs_monitor.sh` 中的环境变量以配置推送。
+### 2. 配置推送目标 (WeCom)
+修改 `scripts/run_xhs_monitor.sh` 中的 `TARGET_ID` 为你的企业微信用户 ID 或群聊 ID。
 ```bash
-export CHANNEL="wecom"      # 推送通道 (如 wecom, telegram, signal 等)
-export TARGET_ID="YOUR_ID"  # 填写对应的用户 ID 或群聊 ID
+export TARGET_ID="15928291" # 你的企业微信 ID
+export CHANNEL="wecom"      # 推送通道
 ```
 
 ---

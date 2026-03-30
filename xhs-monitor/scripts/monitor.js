@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer-core');
  * 1. Authenticates via injected XHS_COOKIE environment variable.
  * 2. Scans multiple negative keyword combinations (Brand + Negative).
  * 3. Filters results strictly by the last 7 days.
- * 4. Outputs structured reports for Telegram.
+ * 4. Outputs structured reports for Telegram/WeCom.
  */
 
 (async () => {
@@ -109,13 +109,10 @@ const puppeteer = require('puppeteer-core');
 
   if (allMatches.length > 0) {
     allMatches.slice(0, 10).forEach((n, i) => {
-      report += `${i+1}. [${n.title || '无标题'}]\n`;
-      report += `   • Date: ${n.dateStr} | Author: ${n.author} (${n.likes} likes)\n`;
-      report += `   • Link: https://www.xiaohongshu.com/explore/${n.id}\n`;
+      report += `${i+1}. [${n.title || '无标题'}] (${n.dateStr}) - [链接](https://www.xiaohongshu.com/explore/${n.id})\n`;
     });
     
-    const assistantName = process.env.ASSISTANT_NAME || 'Z总管';
-    report += `\n---\n\n【${assistantName}指令：请对上述舆情进行深度分析，指出潜在风险及应对建议。】\n`;
+    report += `\n---\n\n【Z总管指令：请对上述舆情进行深度分析，指出潜在风险及应对建议。要求：原始列表必须保留标题、时间和超链接。】\n`;
   } else {
     report += `--- 暂无新增负面舆情 ---`;
   }
