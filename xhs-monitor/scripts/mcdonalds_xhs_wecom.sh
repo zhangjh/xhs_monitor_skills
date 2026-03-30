@@ -6,9 +6,8 @@ set -euo pipefail
 export TARGET_ID="wecom:15928291"
 export CHANNEL="wecom"
 BRAND="麦当劳"
-WORKDIR="/root/.openclaw/workspace"
-
-cd "$WORKDIR"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
 
 # Run XHS monitor. It will handle analysis and delivery via openclaw agent --deliver.
-/root/.openclaw/workspace/scripts/run_xhs_monitor.sh "$BRAND"
+./run_xhs_monitor.sh "$BRAND"

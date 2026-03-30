@@ -14,10 +14,12 @@ CHANNEL="${CHANNEL:-wecom}"
 KEYWORD="${1:-麦当劳}"
 LOG_FILE="/root/logs/xhs_cron.log"
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 echo "[$(date)] Starting XHS Monitoring for: $KEYWORD" >> $LOG_FILE
 
 # 1. Execute Node.js script to get RAW DATA
-RAW_DATA=$(/usr/bin/node /root/.openclaw/workspace/skills/xhs-monitor/scripts/monitor.js "$KEYWORD" 2>>$LOG_FILE)
+RAW_DATA=$(/usr/bin/node "$SCRIPT_DIR/monitor.js" "$KEYWORD" 2>>$LOG_FILE)
 
 if [ $? -eq 0 ] && [ ! -z "$RAW_DATA" ]; then
     # 2. Use OpenClaw agent to ANALYZE the data
