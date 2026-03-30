@@ -3,14 +3,14 @@ set -euo pipefail
 
 TARGET_CHAT_ID="1557143577"
 BRAND="麦当劳"
-WORKDIR="/root/.openclaw/workspace"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 RAW_OUTPUT="$(mktemp)"
 trap 'rm -f "$RAW_OUTPUT"' EXIT
 
-cd "$WORKDIR"
+cd "$SCRIPT_DIR"
 
 # Run XHS monitor and capture full output.
-if ! timeout 180s "$WORKDIR/scripts/run_xhs_monitor.sh" "$BRAND" >"$RAW_OUTPUT" 2>&1; then
+if ! timeout 180s "./run_xhs_monitor.sh" "$BRAND" >"$RAW_OUTPUT" 2>&1; then
   ERR_MSG="$(tail -n 30 "$RAW_OUTPUT" | sed 's/"/'"'"'/g')"
   /usr/bin/openclaw message send \
     --channel telegram \

@@ -54,11 +54,13 @@ function loadCookieString() {
     return { cookieString: process.env.XHS_COOKIE.trim(), auth_mode: 'env-cookie' };
   }
 
+  const homeDir = require('os').homedir();
   const repoRoot = path.resolve(__dirname, '..', '..');
   const candidates = [
     path.join(repoRoot, 'xhs-monitor', 'scripts', 'run_xhs_monitor.sh'),
-    '/root/.openclaw/workspace/scripts/run_xhs_monitor.sh',
-    '/root/.openclaw/workspace/skills/xhs-monitor/scripts/run_xhs_monitor.sh'
+    path.join(homeDir, '.openclaw', 'workspace', 'scripts', 'run_xhs_monitor.sh'),
+    path.join(homeDir, '.openclaw', 'workspace', 'skills', 'xhs-monitor', 'scripts', 'run_xhs_monitor.sh'),
+    path.join(homeDir, 'xhs_monitor_skills', 'xhs-monitor', 'scripts', 'run_xhs_monitor.sh')
   ];
 
   for (const file of candidates) {

@@ -13,9 +13,10 @@ TARGET_ID="${TARGET_ID:-wecom:15928291}"
 CHANNEL="${CHANNEL:-wecom}"
 KEYWORD="${1:-麦当劳}"
 ASSISTANT_NAME="${ASSISTANT_NAME:-Z总管}"
-LOG_FILE="/root/logs/xhs_cron.log"
+LOG_FILE="$HOME/logs/xhs_cron.log"
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+mkdir -p "$(dirname "$LOG_FILE")"
 
 echo "[$(date)] Starting XHS Monitoring for: $KEYWORD (Persona: $ASSISTANT_NAME)" >> $LOG_FILE
 
